@@ -14,6 +14,7 @@ type User = {
   email: string;
   phone?: string;
   gender?: string;
+  bloodGroup?: string;
   role: string;
   hospital?: string | null;
   profileImage?: string;
