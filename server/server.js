@@ -29,9 +29,6 @@ const connectDB = require("./config/db");
 const PORT = process.env.PORT || 5000;
 
 connectDB().then(() => {
-    app.listen(PORT, () => {
-        console.log(`🚀 Server is running on port ${PORT}`);
-    });
     app.use(
   "/api/departments",
   departmentRoutes
@@ -76,4 +73,7 @@ app.use(
 "/api/admin-invites",
 adminInviteRoutes
 );
+app.listen(PORT, () => {
+        console.log(`🚀 Server is running on port ${PORT}`);
+    });
 });
