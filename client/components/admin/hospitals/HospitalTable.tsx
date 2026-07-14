@@ -4,7 +4,7 @@ import Link from "next/link";
 import useDeleteHospital from "@/hooks/useDeleteHospital";
 import { useState } from "react";
 import ConfirmModal from "@/components/common/ConfirmModal";
-type Props = {
+export type Props = {
   hospitals: any[];
   onEdit: (hospital: any) => void;
 };
