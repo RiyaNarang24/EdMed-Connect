@@ -2,17 +2,24 @@
 
 import Link from "next/link";
 import useDeleteHospital from "@/hooks/useDeleteHospital";
-
+import { useState } from "react";
+import ConfirmModal from "@/components/common/ConfirmModal";
 type Props = {
   hospitals: any[];
+  onEdit: (hospital: any) => void;
 };
 
 export default function HospitalTable({
   hospitals,
+  onEdit,
 }: Props) {
 
   const deleteHospital = useDeleteHospital();
+const [selectedHospital, setSelectedHospital] =
+  useState<any>(null);
 
+const [confirmOpen, setConfirmOpen] =
+  useState(false);
   if (hospitals.length === 0) {
     return (
       <div className="rounded-3xl border bg-white py-20 text-center shadow-sm">
@@ -97,32 +104,24 @@ export default function HospitalTable({
                 </span>
 
               </td>
-
               <td className="px-8 py-6">
 
                 <div className="flex justify-center gap-5">
 
-                  <Link
-                    href={`/admin/hospitals/edit/${hospital._id}`}
-                    className="font-medium text-blue-600 hover:text-blue-800"
-                  >
-                    Edit
-                  </Link>
+                  <button
+                 onClick={() => onEdit(hospital)}
+                className="font-medium text-blue-600 hover:text-blue-800">
+                  Edit
+                 </button>
 
                   <button
                     onClick={() => {
 
-                      const ok = window.confirm(
-                        "Delete this hospital permanently?"
-                      );
+               setSelectedHospital(hospital);
 
-                      if (ok) {
-                        deleteHospital.mutate(
-                          hospital._id
-                        );
-                      }
+           setConfirmOpen(true);
 
-                    }}
+}}
                     className="font-medium text-red-600 hover:text-red-800"
                   >
                     Delete
@@ -139,7 +138,38 @@ export default function HospitalTable({
         </tbody>
 
       </table>
+<ConfirmModal
+  open={confirmOpen}
+  title="Delete Hospital"
+  message="Are you sure you want to delete this hospital? This action cannot be undone."
+  onCancel={() => {
 
+    setConfirmOpen(false);
+
+    setSelectedHospital(null);
+
+  }}
+  onConfirm={() => {
+
+    if (!selectedHospital) return;
+
+    deleteHospital.mutate(
+      selectedHospital._id,
+      {
+
+        onSuccess: () => {
+
+          setConfirmOpen(false);
+
+          setSelectedHospital(null);
+
+        },
+
+      }
+    );
+
+  }}
+/>
     </div>
 
   );
