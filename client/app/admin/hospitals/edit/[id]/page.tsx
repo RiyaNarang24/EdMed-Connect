@@ -50,7 +50,7 @@ mutate(
 
 {
 
-id,
+id: id as string,
 
 hospital: updatedHospital,
 
