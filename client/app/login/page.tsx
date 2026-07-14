@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import { Suspense } from "react";
 import {
   useRouter,
   useSearchParams,
@@ -10,8 +11,7 @@ import { Eye, EyeOff } from "lucide-react";
 
 import { loginUser } from "@/services/authService";
 import { useAuth } from "@/context/AuthContext";
-
-export default function LoginPage() {
+  function LoginForm() {
 
   const router = useRouter();
 const searchParams = useSearchParams();
@@ -313,4 +313,17 @@ switch (res.user.role) {
 
   );
 
+}
+export default function LoginPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="flex min-h-screen items-center justify-center">
+          Loading...
+        </div>
+      }
+    >
+      <LoginForm />
+    </Suspense>
+  );
 }
