@@ -10,7 +10,8 @@ import HospitalForm from "@/components/admin/hospitals/HospitalForm";
 
 export default function EditHospitalPage() {
 
-  const { id } = useParams();
+  const params = useParams();
+const id = params.id as string;
 
   const router = useRouter();
 
@@ -50,7 +51,7 @@ mutate(
 
 {
 
-id: id as string,
+id,
 
 hospital: updatedHospital,
 
